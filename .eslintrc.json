@@ -1,0 +1,15 @@
+{
+  "extends": "airbnb-base",
+  "rules": {
+    "arrow-parens": [
+      "error",
+      "as-needed"
+    ],
+    "no-console": "off",
+    "indent": [
+      "error",
+      4
+    ],
+    "semi": ["error", "always"]
+  }
+}
