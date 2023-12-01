@@ -39,24 +39,25 @@ const list = {
 const reversedList = _.mapKeys(list, (value, key) => key.split('').reverse().join(''));
 
 const part2 = fs.readFileSync('./input.txt').toString().split('\n').map(line => {
-    const firstNum = _.chain(Object.keys(list))
-        .map(item => ({
-            name: item,
-            value: line.indexOf(item),
+    const firstNum = _.chain(list)
+        .map((number, name) => ({
+            name,
+            position: line.indexOf(name),
         }))
-        .filter(x => x.value !== -1)
-        .sortBy('value')
+        .filter(x => x.position !== -1)
+        .sortBy('position')
         .head()
         .value();
 
     const reversedLine = line.split('').reverse().join('');
-    const lastNum = _.chain(Object.keys(reversedList))
-        .map(item => ({
-            name: item,
-            value: reversedLine.indexOf(item),
+
+    const lastNum = _.chain(reversedList)
+        .map((number, name) => ({
+            name,
+            position: reversedLine.indexOf(name),
         }))
-        .filter(x => x.value !== -1)
-        .sortBy('value')
+        .filter(x => x.position !== -1)
+        .sortBy('position')
         .head()
         .value();
 
