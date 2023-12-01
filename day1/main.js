@@ -35,29 +35,32 @@ const list = {
     eight: 8,
     nine: 9,
 };
+
+const reversedList = _.mapKeys(list, (value, key) => key.split('').reverse().join(''));
+
 const part2 = fs.readFileSync('./input.txt').toString().split('\n').map(line => {
-    const firstNum = _.sortBy(
-        Object.keys(list)
-            .map(item => ({
-                name: item,
-                value: line.indexOf(item),
-            }))
-            .filter(x => x.value !== -1),
-        'value',
-    )[0];
+    const firstNum = _.chain(Object.keys(list))
+        .map(item => ({
+            name: item,
+            value: line.indexOf(item),
+        }))
+        .filter(x => x.value !== -1)
+        .sortBy('value')
+        .head()
+        .value();
 
-    const reversedLine = _.reverse(Array.from(line)).toString();
-    const lastNum = _.sortBy(
-        Object.keys(list)
-            .map(item => ({
-                name: item,
-                value: reversedLine.indexOf(_.reverse(Array.from(item))),
-            }))
-            .filter(x => x.value !== -1),
-        'value',
-    )[0];
+    const reversedLine = line.split('').reverse().join('');
+    const lastNum = _.chain(Object.keys(reversedList))
+        .map(item => ({
+            name: item,
+            value: reversedLine.indexOf(item),
+        }))
+        .filter(x => x.value !== -1)
+        .sortBy('value')
+        .head()
+        .value();
 
-    return list[firstNum.name] * 10 + list[lastNum.name];
+    return list[firstNum.name] * 10 + reversedList[lastNum.name];
 });
 
 console.log('Part 2:', _.sum(part2));
