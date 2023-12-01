@@ -1,13 +1,15 @@
 const fs = require('fs');
 const _ = require('lodash');
 
-// part 1
-const lines = fs.readFileSync('./input.txt').toString().split('\n');
+const lines = fs.readFileSync('./input.txt')
+    .toString()
+    .split('\n');
 
+// part 1
 const processLine = line => {
     const first = _.find(line, a => (a >= '0') && (a <= '9'));
     const last = _.findLast(line, a => (a >= '0') && (a <= '9'));
-    return first * 10 + (last * 1);
+    return first * 10 + last * 1;
 };
 
 console.log('Part 1:', _.sum(lines.map(processLine)));
@@ -38,7 +40,7 @@ const list = {
 
 const reversedList = _.mapKeys(list, (value, key) => key.split('').reverse().join(''));
 
-const part2 = fs.readFileSync('./input.txt').toString().split('\n').map(line => {
+const processLine2 = line => {
     const firstNum = _.chain(list)
         .map((number, name) => ({
             name,
@@ -62,6 +64,6 @@ const part2 = fs.readFileSync('./input.txt').toString().split('\n').map(line => 
         .value();
 
     return list[firstNum.name] * 10 + reversedList[lastNum.name];
-});
+};
 
-console.log('Part 2:', _.sum(part2));
+console.log('Part 2:', _.sum(lines.map(processLine2)));
