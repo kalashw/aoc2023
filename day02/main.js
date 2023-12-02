@@ -11,18 +11,17 @@ const gameState = {
 };
 
 const parseGame = gameString => {
-    const [gameName, roundStrings] = gameString.split(':');
+    const [gameName, roundString] = gameString.split(': ');
     const gameId = +gameName.substring(5);
 
-    const rounds = roundStrings
-        .trim()
+    const rounds = roundString
         .split('; ')
         .map(r => r.split(', '));
     return {
         gameId,
-        result: _.every(rounds, oneRound => _.every(oneRound, oneColor => {
-            const [num, color] = oneColor.split(' ');
-            return gameState[color] >= +num;
+        result: _.every(rounds, round => _.every(round, ball => {
+            const [count, color] = ball.split(' ');
+            return gameState[color] >= +count;
         })),
     };
 };
@@ -38,8 +37,8 @@ console.log('Part 1:', answer);
 
 // part2
 const parseGame2 = gameString => {
-    const [, roundStrings] = gameString.split(': ');
-    const rounds = roundStrings
+    const [, roundString] = gameString.split(': ');
+    const rounds = roundString
         .split('; ')
         .map(r => r.split(', '));
 
@@ -49,10 +48,10 @@ const parseGame2 = gameString => {
         green: 0,
     };
 
-    _.each(rounds, oneRound => _.each(oneRound, r => {
-        const [num, color] = r.split(' ');
-        if (minGame[color] <= +num) {
-            minGame[color] = +num;
+    _.each(rounds, round => _.each(round, ball => {
+        const [count, color] = ball.split(' ');
+        if (minGame[color] <= +count) {
+            minGame[color] = +count;
         }
     }));
     return minGame.red * minGame.blue * minGame.green;
