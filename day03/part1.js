@@ -65,9 +65,9 @@ const parseLine = lineIndex => {
     });
     if (currentNumberIsTouched) {
         sum += currentNumber;
-        currentNumber = 0;
-        currentNumberIsTouched = false;
     }
+    currentNumber = 0;
+    currentNumberIsTouched = false;
 };
 
 lines.forEach((line, index) => parseLine(index));
