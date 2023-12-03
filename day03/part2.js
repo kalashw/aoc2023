@@ -51,7 +51,7 @@ const isTouchedByStar = (lineIndex, symbolIndex) => {
 const touchedStars = {};
 
 const parseTouchedStars = (stars, num) => _.chain(stars)
-    .map(([lI, sI]) => `${lI}_${sI}`)
+    .map(([lineIndex, symbolIndex]) => `${lineIndex}_${symbolIndex}`)
     .uniq()
     .each(hash => {
         if (!touchedStars[hash]) {
