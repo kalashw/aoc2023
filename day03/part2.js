@@ -74,7 +74,7 @@ const parseLine = lineIndex => {
     let currentTouchedStars = [];
     _.each(line, (letter, symbolIndex) => {
         if (isNumber(letter)) {
-            currentNumber = +currentNumber * 10 + +letter;
+            currentNumber = currentNumber * 10 + letter * 1;
             currentTouchedStars = [...currentTouchedStars,
                 ...isTouchedByStar(lineIndex, symbolIndex)];
         } else {
