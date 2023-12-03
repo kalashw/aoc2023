@@ -51,11 +51,11 @@ const parseLine = lineIndex => {
     let currentNumberIsTouched = false;
     _.each(line, (letter, symbolIndex) => {
         if (isNumber(letter)) {
-            currentNumber = +currentNumber * 10 + +letter;
+            currentNumber = currentNumber * 10 + letter * 1;
             currentNumberIsTouched = currentNumberIsTouched
                 || isTouchedByStar(lineIndex, symbolIndex);
         } else if (currentNumberIsTouched) {
-            sum += +currentNumber;
+            sum += currentNumber;
             currentNumber = 0;
             currentNumberIsTouched = false;
         } else {

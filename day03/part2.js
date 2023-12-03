@@ -50,7 +50,7 @@ const isTouched = (lineIndex, symbolIndex) => {
 
 const touchedStars = {};
 
-const mapTouchedStars = (stars, num) => _.chain(stars)
+const parseTouchedStars = (stars, num) => _.chain(stars)
     .map(([lI, sI]) => `${lI}_${sI}`)
     .uniq()
     .each(hash => {
@@ -78,12 +78,12 @@ const parseLine = lineIndex => {
             currentTouchedStars = [...currentTouchedStars,
                 ...isTouched(lineIndex, symbolIndex)];
         } else {
-            mapTouchedStars(currentTouchedStars, currentNumber);
+            parseTouchedStars(currentTouchedStars, currentNumber);
             currentNumber = 0;
             currentTouchedStars = [];
         }
     });
-    mapTouchedStars(currentTouchedStars, currentNumber);
+    parseTouchedStars(currentTouchedStars, currentNumber);
 };
 
 lines.map((line, index) => parseLine(index));
