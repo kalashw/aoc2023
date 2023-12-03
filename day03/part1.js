@@ -34,7 +34,7 @@ const checkBottomRight = (lineIndex, symbolIndex) => lineIndex !== lines.length 
     && symbolIndex !== lines[lineIndex].length - 1
     && isSymbol(lines[lineIndex + 1][symbolIndex + 1]);
 
-const isTouchedByStar = (lineIndex, symbolIndex) => checkTopLeft(lineIndex, symbolIndex)
+const isTouched = (lineIndex, symbolIndex) => checkTopLeft(lineIndex, symbolIndex)
         || checkTop(lineIndex, symbolIndex)
         || checkTopRight(lineIndex, symbolIndex)
         || checkLeft(lineIndex, symbolIndex)
@@ -53,7 +53,7 @@ const parseLine = lineIndex => {
         if (isNumber(letter)) {
             currentNumber = currentNumber * 10 + letter * 1;
             currentNumberIsTouched = currentNumberIsTouched
-                || isTouchedByStar(lineIndex, symbolIndex);
+                || isTouched(lineIndex, symbolIndex);
         } else if (currentNumberIsTouched) {
             sum += currentNumber;
             currentNumber = 0;
