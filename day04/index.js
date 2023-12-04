@@ -33,8 +33,6 @@ console.log('Part 1:', answer);
 
 // part 2
 
-// creates an object { "1": 1, "2": 1, "3": 1, ... } in a weird way,
-// because we hate forEach and times
 const cardsInMyHand = _.chain(Array(cards.length))
     .map((val, index) => [index + 1, 1])
     .fromPairs()
