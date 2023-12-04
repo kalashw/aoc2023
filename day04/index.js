@@ -36,9 +36,8 @@ console.log('Part 1:', answer);
 // creates an object { "1": 1, "2": 1, "3": 1, ... } in a weird way,
 // because we hate forEach and times
 const cardsInMyHand = _.chain(Array(cards.length))
-    .map((val, index) => index + 1)
-    .keyBy(_.identity)
-    .mapValues(_.constant(1))
+    .map((val, index) => [index + 1, 1])
+    .fromPairs()
     .value();
 
 const countScratchCards = ({ gameId, winningNumbers, scratchNumbers }) => {
