@@ -38,8 +38,8 @@ _.times(cards.length, index => {
 });
 
 const countScratchCards = ({ gameId, winningNumbers, scratchNumbers }) => {
-    const nextCardsCount = _.intersection(winningNumbers, scratchNumbers).length;
-    _.times(nextCardsCount, index => {
+    const cardPoints = _.intersection(winningNumbers, scratchNumbers).length;
+    _.times(cardPoints, index => {
         if (gameId + index + 1 <= cards.length) {
             winningScratchCardsCount[gameId + index + 1] += winningScratchCardsCount[gameId];
         }
