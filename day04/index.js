@@ -32,19 +32,19 @@ const answer = _.chain(cards)
 console.log('Part 1:', answer);
 
 // part 2
-const winningScratchCardsCount = {};
+const cardsInMyHand = {};
 _.times(cards.length, index => {
-    winningScratchCardsCount[index + 1] = 1;
+    cardsInMyHand[index + 1] = 1;
 });
 
 const countScratchCards = ({ gameId, winningNumbers, scratchNumbers }) => {
     const cardPoints = _.intersection(winningNumbers, scratchNumbers).length;
     _.times(cardPoints, index => {
         if (gameId + index + 1 <= cards.length) {
-            winningScratchCardsCount[gameId + index + 1] += winningScratchCardsCount[gameId];
+            cardsInMyHand[gameId + index + 1] += cardsInMyHand[gameId];
         }
     });
-    return winningScratchCardsCount[gameId];
+    return cardsInMyHand[gameId];
 };
 
 const answer2 = _.chain(cards)
