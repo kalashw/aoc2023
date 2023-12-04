@@ -32,17 +32,16 @@ const answer = _.chain(cards)
 console.log('Part 1:', answer);
 
 // part 2
-const cardsInMyHand = {};
-_.times(cards.length, index => {
-    cardsInMyHand[index + 1] = 1;
-});
+const cardsInMyHand = _.chain(Array(cards.length))
+    .map((val, index) => index + 1)
+    .keyBy(_.identity)
+    .mapValues(_.constant(1))
+    .value();
 
 const countScratchCards = ({ gameId, winningNumbers, scratchNumbers }) => {
     const cardPoints = _.intersection(winningNumbers, scratchNumbers).length;
     _.times(cardPoints, index => {
-        if (gameId + index + 1 <= cards.length) {
-            cardsInMyHand[gameId + index + 1] += cardsInMyHand[gameId];
-        }
+        cardsInMyHand[gameId + index + 1] += cardsInMyHand[gameId];
     });
     return cardsInMyHand[gameId];
 };
