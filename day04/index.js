@@ -9,10 +9,10 @@ const parseCard = card => {
 
     const winningNumbers = _.filter(winningNumbersString.trim().split(' '));
     const scratchNumbers = _.filter(scratchNumbersString.trim().split(' '));
-    const gameId = gameString.substring(5).trim();
+    const gameId = +gameString.substring(5).trim();
 
     return {
-        gameId: +gameId,
+        gameId,
         winningNumbers,
         scratchNumbers,
     };
