@@ -18,9 +18,10 @@ const parseCard = card => {
     };
 };
 
-const countPoints = ({ winningNumbers, scratchNumbers }) => (_.intersection(winningNumbers, scratchNumbers).length > 0
-    ? 2 ** (_.intersection(winningNumbers, scratchNumbers).length - 1)
-    : 0);
+const countPoints = ({ winningNumbers, scratchNumbers }) => (_.intersection(
+    winningNumbers,
+    scratchNumbers,
+).length > 0 ? 2 ** (_.intersection(winningNumbers, scratchNumbers).length - 1) : 0);
 
 const answer = _.chain(cards)
     .map(parseCard)
@@ -36,28 +37,20 @@ _.times(cards.length, index => {
     winningScratchCardsCount[index + 1] = 1;
 });
 
-const countScratchCard = gameId => {
-    const { winningNumbers, scratchNumbers } = parseCard(cards[gameId - 1]);
+const countScratchCards = ({ gameId, winningNumbers, scratchNumbers }) => {
     const nextCardsCount = _.intersection(winningNumbers, scratchNumbers).length;
     _.times(nextCardsCount, index => {
         if (gameId + index + 1 <= cards.length) {
             winningScratchCardsCount[gameId + index + 1] += winningScratchCardsCount[gameId];
         }
     });
+    return winningScratchCardsCount[gameId];
 };
 
-let gameId = 1;
-
-while (winningScratchCardsCount[gameId] && gameId <= cards.length) {
-    countScratchCard(gameId);
-    gameId += 1;
-}
-
-const answer2 = _.chain(winningScratchCardsCount)
-    .map(x => x)
+const answer2 = _.chain(cards)
+    .map(parseCard)
+    .map(countScratchCards)
     .sum()
     .value();
-
-console.log(winningScratchCardsCount);
 
 console.log('Part 2:', answer2);
