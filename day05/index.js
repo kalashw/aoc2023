@@ -79,11 +79,11 @@ const calculateValues2 = wordIndex => {
     values2[currentWord] = [];
     const almanacMap = almanacMaps[currentWord];
     previousValues.forEach(value => {
-        let currentValues = [value];
+        let currentValuesToMap = [value];
         almanacMap.forEach(
             m => {
                 const newValues = [];
-                _.each(currentValues, val => {
+                _.each(currentValuesToMap, val => {
                     if (m.sourceStart < val.end && val.start < m.sourceEnd) {
                         const delta = m.destinationStart - m.sourceStart;
                         values2[currentWord].push({
@@ -106,10 +106,10 @@ const calculateValues2 = wordIndex => {
                         newValues.push(val);
                     }
                 });
-                currentValues = newValues;
+                currentValuesToMap = newValues;
             },
         );
-        values2[currentWord] = [...values2[currentWord], ...currentValues];
+        values2[currentWord] = [...values2[currentWord], ...currentValuesToMap];
     });
 };
 
