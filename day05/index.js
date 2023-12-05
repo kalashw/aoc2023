@@ -14,10 +14,6 @@ const almanacWords = [
     'location',
 ];
 
-const values = {};
-
-values[almanacWords[0]] = almanacLines[0].substring(7).split(' ').map(_.toNumber);
-
 const almanacMaps = {};
 const parseAlmanac = wordIndex => {
     const previousWord = almanacWords[wordIndex - 1];
@@ -38,6 +34,12 @@ const parseAlmanac = wordIndex => {
 };
 
 _.times(almanacWords.length - 1, i => parseAlmanac(i + 1));
+
+// part 1
+
+const values = {};
+
+values[almanacWords[0]] = almanacLines[0].substring(7).split(' ').map(_.toNumber);
 
 const calculateValues = wordIndex => {
     const previousValues = values[almanacWords[wordIndex - 1]];
