@@ -14,21 +14,21 @@ const distances = _.chain(text[1].substring(10).split(' '))
 
 const calculateWinners = (time, distance) => {
     const lowerRoot = 0.5 * (time - Math.sqrt(time * time - 4 * distance));
-    const integerLower = Math.ceil(lowerRoot) + (+_.isInteger(lowerRoot));
+    const integerLower = Math.floor(lowerRoot + 1);
+
     const higherRoot = 0.5 * (time + Math.sqrt(time * time - 4 * distance));
-    const integerHigher = Math.floor(higherRoot) - (+_.isInteger(higherRoot));
+    const integerHigher = Math.ceil(higherRoot - 1);
+
     return integerHigher - integerLower + 1;
 };
 
-const answer = _.chain(times.length)
-    .times(i => calculateWinners(times[i], distances[i]))
-    .reduce((val, product) => product * val, 1)
-    .value();
+const answer = _.zip(times, distances)
+    .map(([time, distance]) => calculateWinners(time, distance))
+    .reduce((val, product) => product * val, 1);
 
 console.log('Part 1', answer);
 
 const times2 = +times.join('');
-
 const distance2 = +distances.join('');
 
 console.log('Part 2', calculateWinners(times2, distance2));
