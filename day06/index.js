@@ -17,9 +17,9 @@ const calculateWinners = (time, distance) => {
     const integerLower = Math.floor(lowerRoot + 1);
 
     const higherRoot = 0.5 * (time + Math.sqrt(time * time - 4 * distance));
-    const integerHigher = Math.floor(higherRoot + 1);
+    const integerHigher = Math.ceil(higherRoot - 1);
 
-    return integerHigher - integerLower;
+    return integerHigher - integerLower + 1;
 };
 
 const answer = _.zip(times, distances)
