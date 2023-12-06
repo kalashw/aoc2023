@@ -17,7 +17,7 @@ const countWinnerWaitTimes = (time, distance) => {
     const lowestPossibleWaitTime = Math.floor(lowerRoot + 1);
 
     const higherRoot = 0.5 * (time + Math.sqrt(time * time - 4 * distance));
-    const highestPossibleWaitTime = Math.ceil(higherRoot - 1); // highest possible wait time
+    const highestPossibleWaitTime = Math.ceil(higherRoot - 1);
 
     return highestPossibleWaitTime - lowestPossibleWaitTime + 1;
 };
