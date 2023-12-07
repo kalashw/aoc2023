@@ -75,7 +75,7 @@ const cardsRanking = {
 
 const numberOfDifferentCards = _.max(Object.values(cardsRanking));
 const handSize = 5;
-const calculateCardsHandRank = cardString => _.chain(cardString)
+const calculateCardsOrderRank = cardString => _.chain(cardString)
     .map((card, index) => cardsRanking[card] * (numberOfDifferentCards + 1) ** (handSize - index))
     .sum()
     .value();
@@ -85,9 +85,9 @@ const answer = _.chain(hands)
     .map(({ cardsString, cardsObject, bid }) => ({
         combinationRank: calculateCombinationRank(cardsObject),
         bid,
-        cardsHandRank: calculateCardsHandRank(cardsString),
+        cardsOrderRank: calculateCardsOrderRank(cardsString),
     }))
-    .sortBy(['combinationRank', 'cardsHandRank'])
+    .sortBy(['combinationRank', 'cardsOrderRank'])
     .map(({ bid }, index) => bid * (index + 1))
     .sum()
     .value();
@@ -98,8 +98,8 @@ console.log('Part 1:', answer);
 cardsRanking.J = 1;
 
 const calculateCombinationRank2 = cardsObject => {
-    const numberOfJays = cardsObject.J || 0;
-    if (numberOfJays === 5) {
+    const numberOfJokers = cardsObject.J || 0;
+    if (numberOfJokers === 5) {
         return combinationRanks['Five of a kind'].rank;
     }
     const cardsPattern = _.chain(cardsObject)
@@ -107,7 +107,7 @@ const calculateCombinationRank2 = cardsObject => {
         .map(_.identity)
         .sort()
         .value();
-    cardsPattern[cardsPattern.length - 1] += numberOfJays;
+    cardsPattern[cardsPattern.length - 1] += numberOfJokers;
 
     const combinationName = _.findKey(
         combinationRanks,
@@ -122,9 +122,9 @@ const answer2 = _.chain(hands)
     .map(({ cardsString, cardsObject, bid }) => ({
         combinationRank: calculateCombinationRank2(cardsObject),
         bid,
-        cardsHandRank: calculateCardsHandRank(cardsString),
+        cardsOrderRank: calculateCardsOrderRank(cardsString),
     }))
-    .sortBy(['combinationRank', 'cardsHandRank'])
+    .sortBy(['combinationRank', 'cardsOrderRank'])
     .map(({ bid }, index) => bid * (index + 1))
     .sum()
     .value();
