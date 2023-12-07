@@ -73,7 +73,7 @@ const cardsRanking = {
     A: 14,
 };
 
-const numberOfDifferentCards = Object.keys(cardsRanking).length;
+const numberOfDifferentCards = _.max(Object.values(cardsRanking));
 const handSize = 5;
 const calculateCardsHandRank = cardString => _.chain(cardString)
     .map((card, index) => cardsRanking[card] * (numberOfDifferentCards + 1) ** (handSize - index))
