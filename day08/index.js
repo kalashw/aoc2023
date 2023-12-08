@@ -20,9 +20,9 @@ let currentValue = 'AAA';
 let currentInstructionIndex = 0;
 let stepCount = 0;
 
-const takeStep = (value, index) => [
-    combinedDirections[value][instructions[index]],
-    index === instructions.length - 1 ? 0 : index + 1,
+const takeStep = (value, instructionIndex) => [
+    combinedDirections[value][instructions[instructionIndex]],
+    instructionIndex === instructions.length - 1 ? 0 : instructionIndex + 1,
 ];
 while (currentValue !== 'ZZZ' && currentValue) {
     [currentValue, currentInstructionIndex] = takeStep(currentValue, currentInstructionIndex);
@@ -59,7 +59,8 @@ const findCycle = valueToTest => {
 
 console.log('Info about part 2:', currentValues.map(findCycle));
 
-// here we see that all cycles start from 0
-// and there is only one Z in each cycle! so we just need to find GCD of cycleLengths
+// From this data we see that Z appears cyclically at every cycleLength position
+// so we just need to compute lcm
+
 const cycles = currentValues.map(findCycle).map(a => a.cycleLength);
 console.log('Part 2:', lcm(...cycles));
