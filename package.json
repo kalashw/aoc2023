@@ -11,7 +11,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "lodash": "^4.17.21"
+    "compute-lcm": "^1.1.2",
+    "lodash": "^4.17.21",
+    "lodash-math": "^0.0.7"
   },
   "devDependencies": {
     "eslint": "^8.54.0",
