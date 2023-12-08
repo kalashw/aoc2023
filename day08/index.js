@@ -20,17 +20,12 @@ let currentValue = 'AAA';
 let currentInstructionIndex = 0;
 let stepCount = 0;
 
-const takeStep = ({ value, index }) => [
+const takeStep = (value, index) => [
     combinedDirections[value][instructions[index]],
     index === instructions.length - 1 ? 0 : index + 1,
 ];
 while (currentValue !== 'ZZZ' && currentValue) {
-    currentValue = combinedDirections[currentValue][instructions[currentInstructionIndex]];
-    if (currentInstructionIndex === instructions.length - 1) {
-        currentInstructionIndex = 0;
-    } else {
-        currentInstructionIndex += 1;
-    }
+    [currentValue, currentInstructionIndex] = takeStep(currentValue, currentInstructionIndex);
     stepCount += 1;
 }
 
@@ -43,13 +38,13 @@ const currentValues = Object.keys(combinedDirections).filter(value => value[2] =
 const hash = (value, index) => `${value}_${index}`;
 
 const findCycle = valueToTest => {
-    const allValuesAndDirections = { [hash(valueToTest, 0)]: 0 };
+    const allValuesAndDirections = {};
     let value = valueToTest;
     let index = 0;
     let currentStep = 0;
     while (!allValuesAndDirections[hash(value, index)]) {
-        allValuesAndDirections[[hash(value, index)]] = currentStep;
-        [value, index] = takeStep({ value, index });
+        allValuesAndDirections[hash(value, index)] = currentStep;
+        [value, index] = takeStep(value, index);
         currentStep += 1;
     }
 
