@@ -10,6 +10,7 @@
       "error",
       4
     ],
-    "semi": ["error", "always"]
+    "semi": ["error", "always"],
+    "import/no-extraneous-dependencies": "off"
   }
 }
