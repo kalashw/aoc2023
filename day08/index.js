@@ -4,6 +4,7 @@ const lcm = require('compute-lcm');
 const [instructions, formulas] = fs.readFileSync('./input.txt').toString().split('\n\n');
 
 const combinedDirections = {};
+
 const parseFormula = formula => {
     const value = formula.slice(0, 3);
     const leftDirection = formula.slice(7, 10);
@@ -16,14 +17,17 @@ const parseFormula = formula => {
 
 formulas.split('\n').forEach(parseFormula);
 
-let currentValue = 'AAA';
-let currentInstructionIndex = 0;
-let stepCount = 0;
-
 const takeStep = (value, instructionIndex) => [
     combinedDirections[value][instructions[instructionIndex]],
     instructionIndex === instructions.length - 1 ? 0 : instructionIndex + 1,
 ];
+
+// part 1
+
+let currentValue = 'AAA';
+let currentInstructionIndex = 0;
+let stepCount = 0;
+
 while (currentValue !== 'ZZZ' && currentValue) {
     [currentValue, currentInstructionIndex] = takeStep(currentValue, currentInstructionIndex);
     stepCount += 1;
