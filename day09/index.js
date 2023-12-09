@@ -4,7 +4,7 @@ const binomial = require('binomial');
 
 const lines = fs.readFileSync('./input.txt').toString().split('\n');
 
-const parseLine = line => line.split(' ').map(i => +i).reverse();
+const parseLine = line => line.split(' ').map(i => +i);
 
 const calculateNext = numbers => {
     const indexToiSign = index => (index % 2 === 0 ? 1 : -1);
@@ -16,6 +16,7 @@ const calculateNext = numbers => {
 
 const answer = _.chain(lines)
     .map(parseLine)
+    .map(line => line.reverse())
     .map(calculateNext)
     .sum()
     .value();
@@ -23,10 +24,9 @@ const answer = _.chain(lines)
 console.log('Part 1:', answer);
 
 // part 2
-const parseLine2 = line => line.split(' ').map(i => +i);
 
 const answer2 = _.chain(lines)
-    .map(parseLine2)
+    .map(parseLine)
     .map(calculateNext)
     .sum()
     .value();
