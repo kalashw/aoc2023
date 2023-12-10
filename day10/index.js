@@ -126,7 +126,7 @@ const newLabMap = {
     7: [[0, 0, 0], [1, 1, 0], [0, 1, 0]],
     F: [[0, 0, 0], [0, 1, 1], [0, 1, 0]],
     '.': [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
-    // this is because I looked into  my input
+    // this is because I looked into my input
     S: [[0, 1, 0], [0, 1, 0], [0, 1, 0]],
 };
 
