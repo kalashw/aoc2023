@@ -1,3 +1,4 @@
+/* eslint-disable no-multiple-empty-lines */
 const fs = require('fs');
 const _ = require('lodash');
 
@@ -62,9 +63,15 @@ const calculateLoop = () => {
         value: '|',
     };
 
-    const loop = [previousNode];
+
+    const loop = {};
+
+    const addToLoop = ({ row, col, value }) => {
+        loop[`${row}_${col}`] = value;
+    };
+    addToLoop(previousNode);
     while ((currentNode.col !== startCol) || (currentNode.row !== startRow)) {
-        loop.push(currentNode);
+        addToLoop(currentNode);
         const step = takeStep({ previous: previousNode, current: currentNode });
         previousNode = currentNode;
         currentNode = step;
@@ -73,10 +80,44 @@ const calculateLoop = () => {
 };
 
 const mainLoop = calculateLoop();
-const answer = mainLoop.length / 2;
+const answer = Object.keys(mainLoop).length / 2;
 console.log('Part 1:', answer);
 
+const findInMainLoop = ({ row, col }) => mainLoop[`${row}_${col}`];
+
 // part 2
+
+const isInside2 = ({ row, col }) => {
+    let numberOfInBars = 0;
+    _.times(row, ind => {
+        const node = findInMainLoop({ row: ind, col });
+        if (!node) return;
+        if (node === '-' || node === '7' || node === 'J') {
+            numberOfInBars += 1;
+        }
+    });
+    return numberOfInBars % 2 === 1;
+};
+
+const calculateNumberInside = () => {
+    let numberInside = 0;
+    lines.forEach((line, row) => line.split('').forEach((char, col) => {
+        const isInMainLoop = findInMainLoop({ row, col });
+
+        if (isInMainLoop) return;
+        numberInside += +isInside2({ col, row });
+    }));
+
+    return numberInside;
+};
+
+const answer2 = calculateNumberInside();
+
+console.log('Part 2:', answer2);
+
+
+// part 2 old
+/*
 const newLabMap = {
     '|': [[0, 1, 0], [0, 1, 0], [0, 1, 0]],
     '-': [[0, 0, 0], [1, 1, 1], [0, 0, 0]],
@@ -89,8 +130,6 @@ const newLabMap = {
     S: [[0, 1, 0], [0, 1, 0], [0, 1, 0]],
 };
 
-const inMainLoop = (row, col) => !!mainLoop.find(node => node.row === row && node.col === col);
-
 const constructNewLab = () => {
     const result = [];
     lines.forEach((line, row) => {
@@ -99,7 +138,7 @@ const constructNewLab = () => {
         result[3 * row + 2] = [];
         line.split('').forEach(
             (char, col) => {
-                const isInMainLoop = inMainLoop(row, col);
+                const isInMainLoop = findInMainLoop({ row, col });
                 const mapping = isInMainLoop ? newLabMap[char] : newLabMap['.'];
                 result[3 * row] = [...result[3 * row], ...mapping[0]];
                 result[3 * row + 1] = [...result[3 * row + 1], ...mapping[1]];
@@ -112,21 +151,13 @@ const constructNewLab = () => {
 
 const newLabyrinth = constructNewLab();
 
-const isInside = ({ col, row, labyrinth }) => {
-    const inBars = _.sum(
-        _.times(3 * row + 1, ind => labyrinth[ind][3 * col]),
-    );
-    const outBars = _.sum(
-        _.times(3 * row + 1, ind => labyrinth[ind][3 * col + 2]),
-    );
-
-    return inBars % 2 === 1 && outBars % 2 === 1;
-};
-
+const isInside = ({ col, row, labyrinth }) => _.sum(
+    _.times(3 * row + 1, ind => labyrinth[ind][3 * col]),
+) % 2 === 1;
 const calculateNumberInside = () => {
     let numberInside = 0;
     lines.forEach((line, row) => line.split('').forEach((char, col) => {
-        const isInMainLoop = inMainLoop(row, col);
+        const isInMainLoop = findInMainLoop({ row, col });
 
         if (isInMainLoop) return;
         numberInside += +isInside({ col, row, labyrinth: newLabyrinth });
@@ -138,3 +169,5 @@ const calculateNumberInside = () => {
 const answer2 = calculateNumberInside();
 
 console.log('Part 2:', answer2);
+*/
+
