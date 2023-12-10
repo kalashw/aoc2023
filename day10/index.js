@@ -113,17 +113,14 @@ const constructNewLab = () => {
 const newLabyrinth = constructNewLab();
 
 const isInside = ({ col, row, labyrinth }) => {
-    const rowHeat0 = _.sum(
+    const inBars = _.sum(
         _.times(3 * row + 1, ind => labyrinth[ind][3 * col]),
     );
-    const rowHeat2 = _.sum(
+    const outBars = _.sum(
         _.times(3 * row + 1, ind => labyrinth[ind][3 * col + 2]),
     );
 
-    const colHeat0 = _.sum(_.times(3 * col + 1, ind => labyrinth[0][ind]));
-    const colHeat2 = _.sum(_.times(3 * col + 1, ind => labyrinth[2][ind]));
-
-    return (rowHeat0 % 2 === 1 && rowHeat2 % 2 === 1) || (colHeat0 % 2 === 1 && colHeat2 % 2 === 1);
+    return inBars % 2 === 1 && outBars % 2 === 1;
 };
 
 const calculateNumberInside = () => {
