@@ -87,7 +87,7 @@ const findInMainLoop = ({ row, col }) => mainLoop[`${row}_${col}`];
 
 // part 2
 
-const isInside2 = ({ row, col }) => {
+const isInside = ({ row, col }) => {
     let numberOfInBars = 0;
     _.times(row, ind => {
         const node = findInMainLoop({ row: ind, col });
@@ -105,7 +105,7 @@ const calculateNumberInside = () => {
         const isInMainLoop = findInMainLoop({ row, col });
 
         if (isInMainLoop) return;
-        numberInside += +isInside2({ col, row });
+        numberInside += +isInside({ col, row });
     }));
 
     return numberInside;
