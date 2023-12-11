@@ -39,12 +39,8 @@ const findIndexesToExpand = parsedLines => {
     };
 };
 const findDifferencesWithExpansion = (galaxies, expansions, expansionMultiple) => {
-    const mappedGalaxies = galaxies.map(
-        value => ({ value, isGalaxy: true, isExpansion: false }),
-    );
-    const mappedExpansions = expansions.map(
-        value => ({ value, isGalaxy: false, isExpansion: true }),
-    );
+    const mappedGalaxies = galaxies.map(value => ({ value, isGalaxy: true }));
+    const mappedExpansions = expansions.map(value => ({ value, isGalaxy: false }));
 
     const galaxiesAndExpansions = _.sortBy([...mappedGalaxies, ...mappedExpansions], 'value');
 
@@ -74,4 +70,5 @@ console.log('Part 1:', answer1);
 
 const answer2 = findDifferencesWithExpansion(rowIndexes, emptyRowIndexes, 999999)
     + findDifferencesWithExpansion(colIndexes, emptyColIndexes, 999999);
+
 console.log('Part 2:', answer2);
