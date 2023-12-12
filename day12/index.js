@@ -54,16 +54,16 @@ console.log('Part 1:', answer1);
 
 // part 2
 
-const memo = new Map();
+const memo = {};
 
 const countCombinations = ({ symbols, numbers }) => {
     const hash = JSON.stringify({ symbols, numbers });
 
-    if (memo.get(hash)) {
-        return memo.get(hash);
+    if (memo[hash]) {
+        return memo[hash];
     }
     if (symbols.length === 0 && numbers.length === 0) {
-        memo.set(hash, 1);
+        memo[hash] = 1;
         return 1;
     }
     if (symbols.length === 0 && numbers.length !== 0) {
