@@ -62,8 +62,8 @@ const cycleThroughHash = hash => {
     return rotateR(sResult).map(calculateLine);
 };
 
-let tableToCycle = rotateL(rotateL(lines));
-const resultSums = {};
+let hashToCycle = rotateL(rotateL(lines));
+const resultWeights = {};
 
 let dontStop = true;
 let index = 0;
@@ -71,33 +71,33 @@ let cycleStart;
 let cycleEnd;
 
 while (dontStop) {
-    const result = cycleThroughHash(tableToCycle);
+    const result = cycleThroughHash(hashToCycle);
 
     const answ = _.chain(result)
         .map((line, ind) => (ind + 1) * (line.join('').split('O').length - 1))
         .sum()
         .value();
 
-    const hashedTable = result.map(line => line.join('')).join('\n');
+    const stringHash = result.map(line => line.join('')).join('\n');
 
-    if (resultSums[hashedTable]) {
+    if (resultWeights[stringHash]) {
         dontStop = false;
-        cycleStart = resultSums[hashedTable].index;
+        cycleStart = resultWeights[stringHash].index;
         cycleEnd = index;
     } else {
-        resultSums[hashedTable] = {
+        resultWeights[stringHash] = {
             index,
             answ,
         };
     }
 
-    tableToCycle = result;
+    hashToCycle = result;
     index += 1;
 }
 
 const answerIndex = ((1000000000 - cycleStart - 1) % (cycleEnd - cycleStart)) + cycleStart;
 const answer2 = _.find(
-    resultSums,
+    resultWeights,
     { index: answerIndex },
 ).answ;
 
