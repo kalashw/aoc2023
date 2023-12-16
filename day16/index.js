@@ -69,7 +69,7 @@ const chooseNextSteps = ({
     return applyDirections({ to, directionsToApply });
 };
 
-const calculateEnergized = startingStep => {
+const countEnergized = startingStep => {
     let steps = [startingStep];
     const currentlyEnergized = new Set([hash(steps[0].to)]);
 
@@ -103,7 +103,7 @@ const calculateEnergized = startingStep => {
 };
 
 // part 1
-const answer = calculateEnergized({
+const answer = countEnergized({
     from: { row: 0, col: -1 },
     to: { row: 0, col: 0 },
 });
@@ -135,7 +135,7 @@ const getStartingRowsAndColumns = () => {
     return [...topRow, ...bottomRow, ...leftCol, ...rightCol];
 };
 const answer2 = _.chain(getStartingRowsAndColumns())
-    .map(calculateEnergized)
+    .map(countEnergized)
     .max()
     .value();
 
