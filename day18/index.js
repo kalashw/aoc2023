@@ -3,6 +3,23 @@ const _ = require('lodash');
 
 const lines = fs.readFileSync('./input.txt').toString().split('\n');
 
+const dirMap = {
+    R: ({ row, col }, distance = 1) => ({ row, col: col + distance }),
+    L: ({ row, col }, distance = 1) => ({ row, col: col - distance }),
+    U: ({ row, col }, distance = 1) => ({ row: row - distance, col }),
+    D: ({ row, col }, distance = 1) => ({ row: row + distance, col }),
+};
+
+const hash = ({ row, col }) => `${row},${col}`;
+
+const printArr = arr => {
+    const string = arr.map(line => line.map(el => el || '.').join('')).join('\n');
+
+    fs.writeFileSync('output.txt', string);
+};
+
+// part 1
+
 const parseLine = line => {
     const [direction, stepCount] = line.split(' ');
 
@@ -12,15 +29,7 @@ const parseLine = line => {
     };
 };
 
-const dirMap = {
-    R: ({ row, col }, distance = 1) => ({ row, col: col + distance }),
-    L: ({ row, col }, distance = 1) => ({ row, col: col - distance }),
-    U: ({ row, col }, distance = 1) => ({ row: row - distance, col }),
-    D: ({ row, col }, distance = 1) => ({ row: row + distance, col }),
-};
-
-const hash = ({ row, col }) => `${row},${col}`;
-const dig = ({ point, instruction: { direction, stepCount }, result }) => {
+const dig1 = ({ point, instruction: { direction, stepCount }, result }) => {
     let newPoint = point;
     _.times(stepCount, () => {
         newPoint = dirMap[direction](newPoint);
@@ -28,12 +37,6 @@ const dig = ({ point, instruction: { direction, stepCount }, result }) => {
         result[hash(newPoint)] = '#';
     });
     return newPoint;
-};
-
-const printArr = arr => {
-    const string = arr.map(line => line.map(el => el || '.').join('')).join('\n');
-
-    fs.writeFileSync('output.txt', string);
 };
 
 const digPart1 = () => {
@@ -46,7 +49,7 @@ const digPart1 = () => {
     const result = {};
 
     instructions.forEach(instruction => {
-        point = dig({ point, instruction, result });
+        point = dig1({ point, instruction, result });
         maxRow = maxRow > point.row ? maxRow : point.row;
         maxCol = maxCol > point.col ? maxCol : point.col;
         minRow = minRow > point.row ? point.row : minRow;
@@ -75,16 +78,19 @@ const digPart1 = () => {
             ];
 
             const newPointsToFloodFill = newPoints
-                .filter(p => (p.row >= 0)
+                .filter(
+                    p => (p.row >= 0)
                     && (p.row < resultArr.length)
                     && (p.col >= 0)
                     && (p.col < resultArr[0].length)
-                    && !resultArr[p.row][p.col]);
+                    && !resultArr[p.row][p.col],
+                );
 
+            // eslint-disable-next-line no-loop-func
             newPointsToFloodFill.forEach(p => {
                 resultArr[p.row][p.col] = 1;
                 areaOutside += 1;
-                pointsToCheck.push(p);
+                pointsToCheck.push({ ...p });
             });
         }
     };
@@ -94,12 +100,11 @@ const digPart1 = () => {
     return (maxRow - minRow + 3) * (maxCol - minCol + 3) - areaOutside;
 };
 
-// part 1
 const answer = digPart1();
+
 console.log('Part 1:', answer);
 
 // part 2
-
 const parseLine2 = line => {
     const color = line.split(' ')[2];
     const num = color.substring(2, 7);
@@ -127,9 +132,7 @@ const dig2 = ({
     const isLeft = (nextDirection === 'L' || direction === 'L');
     const isDown = (nextDirection === 'D' || direction === 'D');
 
-    result.push({
-        ...newPoint, isLeft, isDown,
-    });
+    result.push({ ...newPoint, isLeft, isDown });
     return newPoint;
 };
 
@@ -145,12 +148,17 @@ const digPart2 = () => {
         });
     });
 
-    return result.reduce((sum, p, index) => {
-        const toAdd = (p.row + (+p.isLeft)) * (p.col + (+p.isDown));
-        const sign = index % 2 === 1 ? 1 : -1;
+    return _.chain(result)
+        .map(({
+            row, col, isLeft, isDown,
+        }, index) => {
+            const toAdd = (row + (+isLeft)) * (col + (+isDown));
+            const sign = index % 2 === 1 ? 1 : -1;
 
-        return sum + sign * toAdd;
-    }, 0);
+            return sign * toAdd;
+        })
+        .sum()
+        .value();
 };
 
 const answer2 = digPart2();
