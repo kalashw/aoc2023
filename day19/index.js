@@ -127,7 +127,6 @@ const applyInstructions2 = ({
 
     if (conditionType === '>') {
         newPartTrue[conditionLetter] = [_.max([start, value]), end];
-
         newPartFalse[conditionLetter] = [start, _.min([value + 1, end])];
     } else {
         newPartTrue[conditionLetter] = [start, _.min([end, value])];
