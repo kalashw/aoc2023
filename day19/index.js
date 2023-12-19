@@ -97,18 +97,23 @@ const findAllPossibleAcceptedParts = () => {
 
     const applyInstructions2 = ({ instructionName, conditionIndex, part }) => {
         if (instructionName === 'A') {
-            return [{
-                isEnd: true,
+            return {
                 isAccepted: true,
                 part,
-            }];
+            };
         }
         if (instructionName === 'R') {
-            return [{
-                isEnd: true,
+            return {
                 isAccepted: false,
                 part,
-            }];
+            };
+        }
+
+        if (_.some(part, interval => interval[0] + 1 >= interval[1])) {
+            return {
+                isAccepted: false,
+                part,
+            };
         }
         const {
             conditionType, conditionLetter, next, value,
@@ -120,13 +125,6 @@ const findAllPossibleAcceptedParts = () => {
                 conditionIndex: 0,
                 part,
             });
-        }
-        if (_.some(part, interval => interval[0] + 1 >= interval[1])) {
-            return [{
-                isEnd: true,
-                isAccepted: false,
-                part,
-            }];
         }
 
         const newPartTrue = { ...part };
