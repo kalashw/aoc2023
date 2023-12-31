@@ -65,6 +65,7 @@ const reachedCellsInSteps = (numberOfSteps, startMap = theMap) => {
 const answer = reachedCellsInSteps(64);
 console.log('Part 1:', answer);
 
+// part 2
 const maxNumberOfSteps = 26501365;
 
 const start = findStart();
@@ -102,13 +103,10 @@ const edgeSteps = reachedCellsInStepsFromEdges(
 
 const numberOfCycles = Math.floor(maxNumberOfSteps / maxLength);
 
-// part 2
-//
-const answer2 = (numberOfCycles * (numberOfCycles - 2) + 1) * (reachedCellsInSteps(131))
+const answer2 = (numberOfCycles - 1) * (numberOfCycles - 1) * (reachedCellsInSteps(131))
     + numberOfCycles * numberOfCycles * reachedCellsInSteps(132)
-    + (numberOfCycles) * (edgeSteps.NE.odd + edgeSteps.NW.odd + edgeSteps.SE.odd + edgeSteps.SW.odd)
+    + numberOfCycles * (edgeSteps.NE.odd + edgeSteps.NW.odd + edgeSteps.SE.odd + edgeSteps.SW.odd)
     + (numberOfCycles - 1) * (edgeSteps.NE.even + edgeSteps.NW.even + edgeSteps.SE.even + edgeSteps.SW.even)
     + edgeSteps.N + edgeSteps.E + edgeSteps.S + edgeSteps.W;
 
-console.log((numberOfCycles * (numberOfCycles) + 1) * (reachedCellsInSteps(132)));
 console.log('Part 2:', answer2);
